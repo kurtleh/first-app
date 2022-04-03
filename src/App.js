@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Loginform from './containers/Loginform';
+import LoggedIn from './containers/LoggedIn';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+function App(){
+  const adminUser={
+    username:'admin',
+    password:'test'
+  }
+
+  const [user,setUser]=useState({name:""});
+  const [error,setError]=useState("");
+
+  const Login=details =>{
+    console.log(details);
+
+    if(details.name==adminUser.username &&details.password==adminUser.password){
+      setUser({
+        name:details.name,
+        
+      });
+    }else{
+      setError("invalid data");
+    }
+  }
+
+  const Logout = () =>{
+    setUser({name:""});
+  }
+return(
+    <div className='App'>
+      {(user.name !="") ?(
+        <><LoggedIn Login={Login} /><button onClick={Logout}>Logout</button></>
+      ):(
+        <Loginform Login={Login} error={error}/>
+      )}
+
     </div>
-  );
+);
 }
 
 export default App;
